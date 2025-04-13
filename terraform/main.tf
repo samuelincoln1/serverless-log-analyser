@@ -45,6 +45,8 @@ module "lambda" {
     s3_input_bucket_name = module.s3.s3_input_bucket_name
     s3_input_bucket_arn = module.s3.s3_input_bucket_arn
     s3_input_bucket_bucket = module.s3.s3_input_bucket_bucket
+    lambda_function_name_aggregator = "log-aggregator-function"
+    lambda_function_handler_aggregator = "handler.lambda_handler"
 }   
 
 module "cloudtrail" {
@@ -62,5 +64,14 @@ module "cloudtrail" {
     data_resource_values = ["arn:aws:s3:::${module.s3.s3_input_bucket_arn}/*"]
     account_id = data.aws_caller_identity.current.account_id    
    
+}
+
+module "eventbridge" {
+    source = "./modules/eventbridge"
+    eventbridge_name = "log-aggregator-eventbridge"
+    eventbridge_description = "EventBridge rule to trigger the log aggregator lambda function every 30 minutes"
+    eventbridge_schedule_expression = "cron(0/30 * * * ? *)"
+    lambda_function_arn = module.lambda.lambda_function_aggregator_arn
+    lambda_function_name = module.lambda.lambda_function_aggregator_name
 }
 

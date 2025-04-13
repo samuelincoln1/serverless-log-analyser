@@ -29,3 +29,15 @@ variable "s3_input_bucket_bucket" {
     description = "The bucket of the S3 bucket for input logs"
 }
 
+variable "lambda_function_name_aggregator" {
+    type = string
+    description = "The name of the Lambda function for aggregator"
+}
+
+variable "lambda_function_handler_aggregator" {
+    type = string
+    description = "The handler of the Lambda function for aggregator"
+}
+
+
+

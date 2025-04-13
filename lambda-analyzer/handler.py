@@ -1,11 +1,10 @@
 import boto3
 import json
 import gzip
-from collections import Counter
 import os
 
 from exporter import export_to_json, export_to_csv
-
+from analyzer import process_logs
 s3 = boto3.client("s3")
 
 def lambda_handler(event, context):
@@ -55,18 +54,6 @@ def lambda_handler(event, context):
     s3.upload_file(csv_path, "samuellincoln-log-analyzer-output", new_key_csv)
     print(f"[+] Insights uploaded to s3")
     
-def process_logs(filepath):
-    with open(filepath, "r") as file:
-        logs = json.load(file)
-        
-    event_counter = Counter()
-    for record in logs["Records"]:
-        event_name = record["eventName"]
-        event_counter[event_name] += 1
-        
-    return {
-        "event_counts": dict(event_counter),
-        "total_events": len(logs["Records"])
-    }
+    process_logs(local_json_path)
     
    
