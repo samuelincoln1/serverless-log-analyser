@@ -17,7 +17,7 @@ def lambda_handler(event, context):
     day = event['day']
     
     # Criar o prefixo dinâmico
-    prefix = f'AWSLogs/{account_id}/CloudTrail/us-east-1/{ano}/{mes}/{dia}/'
+    prefix = f'AWSLogs/{account_id}/CloudTrail/us-east-1/{year}/{month}/{day}/'
     print(f"prefix dinamico: {prefix}")
     
     aggregated_data = []
