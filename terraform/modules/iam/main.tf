@@ -28,7 +28,8 @@ resource "aws_iam_role_policy" "lambda_exec_policy" {
                     "s3:GetObject",
                     "s3:ListBucket",
                     "s3:PutObject",
-                    "s3:PutObjectAcl"
+                    "s3:PutObjectAcl",
+                    "s3:DeleteObject"
                 ]
                 Effect = "Allow"
                 Resource = [

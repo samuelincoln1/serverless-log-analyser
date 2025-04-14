@@ -36,23 +36,26 @@ def lambda_handler(event, context):
     else:
         print(f"[-] JSON file not found at {local_json_path}")
     
-    insights = process_logs(local_json_path)
-  
-    json_path = f"{local_json_path}_insights.json"
-    csv_path = f"{local_json_path}_insights.csv"
-  
-    export_to_json(insights, json_path)
-    export_to_csv(insights, csv_path)
-    
-    directory = '/'.join(key.split('/')[:-1])
-    
-    new_key_json = f"{directory}/{base_filename}_insights.json"
-    new_key_csv = f"{directory}/{base_filename}_insights.csv"
+    if "aggregated" in base_filename:
+        insights = process_logs(local_json_path)
+        
+        json_path = f"{local_json_path}_insights.json"
+        csv_path = f"{local_json_path}_insights.csv"
+      
+        export_to_json(insights, json_path)
+        export_to_csv(insights, csv_path)
+        
+        directory = '/'.join(key.split('/')[:-1])
+        
+        new_key_json = f"{directory}/{base_filename}_insights.json"
+        new_key_csv = f"{directory}/{base_filename}_insights.csv"
 
-    print(f"[+] Uploading insights to output s3 in path {new_key_json} and {new_key_csv}")
-    s3.upload_file(json_path, "samuellincoln-log-analyzer-output", new_key_json)
-    s3.upload_file(csv_path, "samuellincoln-log-analyzer-output", new_key_csv)
-    print(f"[+] Insights uploaded to s3")
+        print(f"[+] Uploading insights to output s3 in path {new_key_json} and {new_key_csv}")
+        s3.upload_file(json_path, "samuellincoln-log-analyzer-output", new_key_json)
+        s3.upload_file(csv_path, "samuellincoln-log-analyzer-output", new_key_csv)
+        print(f"[+] Insights uploaded to s3")
+    else:
+        print(f"[-] File {base_filename} does not contain 'aggregated', skipping processing.")
     
     process_logs(local_json_path)
     

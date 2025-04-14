@@ -73,5 +73,6 @@ module "eventbridge" {
     eventbridge_schedule_expression = "cron(0/30 * * * ? *)"
     lambda_function_arn = module.lambda.lambda_function_aggregator_arn
     lambda_function_name = module.lambda.lambda_function_aggregator_name
+    account_id = data.aws_caller_identity.current.account_id
 }
 

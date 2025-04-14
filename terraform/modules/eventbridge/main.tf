@@ -8,6 +8,13 @@ resource "aws_cloudwatch_event_target" "lambda_target" {
   rule      = aws_cloudwatch_event_rule.every_30_minutes.name
   target_id = "logAggregator"
   arn       = var.lambda_function_arn
+
+  input = jsonencode({
+    account_id = var.account_id
+    year        = formatdate("YYYY", timestamp())
+    month        = formatdate("MM", timestamp())
+    day        = formatdate("dd", timestamp())
+  })
 }
 
 resource "aws_lambda_permission" "allow_eventbridge" {

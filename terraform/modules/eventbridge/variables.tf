@@ -27,4 +27,9 @@ variable "lambda_function_name" {
     description = "The name of the Lambda function"
 }
 
+variable "account_id" {
+    type = string
+    description = "The ID of the account"
+}
+
 
