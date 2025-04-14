@@ -2,6 +2,7 @@ import boto3
 import json
 import gzip
 import os
+from urllib.parse import unquote
 
 from exporter import export_to_json, export_to_csv
 from analyzer import process_logs
@@ -13,7 +14,10 @@ def lambda_handler(event, context):
     key = event["Records"][0]["s3"]["object"]["key"]
     print(f"[+] Key: {key}")
     
-    # Obter o nome do arquivo sem a extensão .gz
+
+    key = unquote(key)
+    
+  
     base_filename = os.path.splitext(key.split('/')[-1])[0]
     
     local_gz_path = f"/tmp/{key.split('/')[-1]}"
@@ -39,16 +43,16 @@ def lambda_handler(event, context):
     if "aggregated" in base_filename:
         insights = process_logs(local_json_path)
         
-        json_path = f"{local_json_path}_insights.json"
-        csv_path = f"{local_json_path}_insights.csv"
+        json_path = f"{local_json_path}_aggregated_insights.json"
+        csv_path = f"{local_json_path}_aggregated_insights.csv"
       
         export_to_json(insights, json_path)
         export_to_csv(insights, csv_path)
         
         directory = '/'.join(key.split('/')[:-1])
         
-        new_key_json = f"{directory}/{base_filename}_insights.json"
-        new_key_csv = f"{directory}/{base_filename}_insights.csv"
+        new_key_json = f"{directory}/{base_filename}_aggregated_insights.json"
+        new_key_csv = f"{directory}/{base_filename}_aggregated_insights.csv"
 
         print(f"[+] Uploading insights to output s3 in path {new_key_json} and {new_key_csv}")
         s3.upload_file(json_path, "samuellincoln-log-analyzer-output", new_key_json)
