@@ -43,16 +43,17 @@ def lambda_handler(event, context):
     if "aggregated" in base_filename:
         insights = process_logs(local_json_path)
         
-        json_path = f"{local_json_path}_aggregated_insights.json"
-        csv_path = f"{local_json_path}_aggregated_insights.csv"
+        base_filename = base_filename.replace('-aggregated.json', '')
+        json_path = f"{local_json_path.rsplit('/', 1)[0]}/{base_filename}-insights.json"
+        csv_path = f"{local_json_path.rsplit('/', 1)[0]}/{base_filename}-insights.csv"
       
         export_to_json(insights, json_path)
         export_to_csv(insights, csv_path)
         
         directory = '/'.join(key.split('/')[:-1])
         
-        new_key_json = f"{directory}/{base_filename}_aggregated_insights.json"
-        new_key_csv = f"{directory}/{base_filename}_aggregated_insights.csv"
+        new_key_json = f"{directory}/{base_filename}-insights.json"
+        new_key_csv = f"{directory}/{base_filename}-insights.csv"
 
         print(f"[+] Uploading insights to output s3 in path {new_key_json} and {new_key_csv}")
         s3.upload_file(json_path, "samuellincoln-log-analyzer-output", new_key_json)
