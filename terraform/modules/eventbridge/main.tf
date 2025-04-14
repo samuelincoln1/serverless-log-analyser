@@ -11,9 +11,6 @@ resource "aws_cloudwatch_event_target" "lambda_target" {
 
   input = jsonencode({
     account_id = var.account_id
-    year        = formatdate("YYYY", timestamp())
-    month        = formatdate("MM", timestamp())
-    day        = formatdate("DD", timestamp())
   })
 }
 

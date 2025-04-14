@@ -10,21 +10,22 @@ def lambda_handler(event, context):
     print("aggregator called")
     bucket_name = 'samuellincoln-log-analyzer-input'
     
-    # Supondo que o evento contenha as informações necessárias
-    account_id = event['account_id']
-    year = event['year']
-    month = event['month']
-    day = event['day']
+    # Calcular a data atual
+    current_date = datetime.utcnow()
+    year = current_date.strftime("%Y")
+    month = current_date.strftime("%m")
+    day = current_date.strftime("%d")
+    
     
     # Criar o prefixo dinâmico
-    prefix = f'AWSLogs/{account_id}/CloudTrail/us-east-1/{year}/{month}/{day}/'
+    prefix = f'AWSLogs/{event["account_id"]}/CloudTrail/us-east-1/{year}/{month}/{day}/'
     print(f"prefix dinamico: {prefix}")
     
     aggregated_data = []
 
     # Listar objetos no bucket com o prefixo especificado
     response = s3.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
-    print(f"resposta do list_objects_v2: {response['Contents']}")
+    print(f"resposta do list_objects_v2: {response.get('Contents', [])}")
     for obj in response.get('Contents', []):
         print(f"objeto sendo analisado: {obj}")
         key = obj['Key']
@@ -49,7 +50,6 @@ def lambda_handler(event, context):
     # Salvar o arquivo agregado no S3
     s3.put_object(Bucket=bucket_name, Key=f"{prefix}{output_key}", Body=out_buffer.getvalue())
     
-
     # Deletar arquivos antigos de logs
     for obj in response.get('Contents', []):
         key = obj['Key']
