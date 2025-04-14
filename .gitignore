@@ -16,3 +16,4 @@ terraform.rc
 lambda/package/
 
 *.zip
+*.json
