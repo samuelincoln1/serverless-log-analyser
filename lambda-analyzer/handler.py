@@ -62,6 +62,5 @@ def lambda_handler(event, context):
     else:
         print(f"[-] File {base_filename} does not contain 'aggregated', skipping processing.")
     
-    process_logs(local_json_path)
     
    
