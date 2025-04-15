@@ -37,7 +37,7 @@ def process_logs(filepath):
         if event_category:
             event_category_counter[event_category] += 1
     
-        account_type = record["userIdentity"]["type"] 
+        account_type = record.get("userIdentity", {}).get("type", "Unknown")
         account_counter[account_type] += 1
                    
     return {
