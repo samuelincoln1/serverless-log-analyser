@@ -69,8 +69,7 @@ module "cloudtrail" {
 module "eventbridge" {
     source = "./modules/eventbridge"
     eventbridge_name = "log-aggregator-eventbridge"
-    eventbridge_description = "EventBridge rule to trigger the log aggregator lambda function every 30 minutes"
-    # eventbridge_schedule_expression = "cron(0/30 * * * ? *)"
+    eventbridge_description = "EventBridge rule to trigger the log aggregator lambda function every 12 hours"
     eventbridge_schedule_expression = "cron(0 0/12 * * ? *)"
     lambda_function_arn = module.lambda.lambda_function_aggregator_arn
     lambda_function_name = module.lambda.lambda_function_aggregator_name
