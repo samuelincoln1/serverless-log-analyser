@@ -103,7 +103,7 @@ The system implements a multi-stage processing pipeline:
    terraform apply
    ```
 
-4. **Package Lambda functions** (if needed)
+4. **Package Lambda functions** 
    ```bash
    # Lambda packages to build:
    cd lambda-aggregator && zip -r ../lambda-aggregator.zip .
