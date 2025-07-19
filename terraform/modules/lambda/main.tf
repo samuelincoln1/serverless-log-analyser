@@ -52,8 +52,8 @@ resource "aws_s3_bucket_notification" "log_upload_notification" {
   depends_on = [aws_lambda_permission.allow_s3_trigger]
 
   lambda_function {
-    events              = ["s3:ObjectCreated:*"]
     lambda_function_arn = aws_lambda_function.log_processor.arn
+    events              = ["s3:ObjectCreated:*"]
   }
 
 
