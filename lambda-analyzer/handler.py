@@ -13,11 +13,9 @@ def lambda_handler(event, context):
     print(f"[+] Bucket name: {bucket_name}")
     key = event["Records"][0]["s3"]["object"]["key"]
     print(f"[+] Key: {key}")
-    
 
     key = unquote(key)
     
-  
     base_filename = os.path.splitext(key.split('/')[-1])[0]
     
     local_gz_path = f"/tmp/{key.split('/')[-1]}"

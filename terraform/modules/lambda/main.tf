@@ -55,8 +55,6 @@ resource "aws_s3_bucket_notification" "log_upload_notification" {
     lambda_function_arn = aws_lambda_function.log_processor.arn
     events              = ["s3:ObjectCreated:*"]
   }
-
-
 }
 
 
