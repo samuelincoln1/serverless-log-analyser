@@ -2,7 +2,7 @@
 
 A comprehensive serverless solution for automated AWS CloudTrail log analysis that provides real-time insights into AWS account activities, security events, and resource utilization patterns. This project leverages AWS Lambda, S3, CloudTrail, and EventBridge to create an event-driven analytics pipeline that processes CloudTrail logs and generates actionable insights.
 
-📖 **For complete documentation and implementation details, visit: samuellincoln.com/projects/serverless-logs-analyzer**
+📖 **For complete documentation and implementation details, visit: **[samuellincoln.com/projects/serverless-logs-analyzer](https://samuellincoln.com/projects/serverless-logs-analyzer)**
 
 ## 🏗️ Architecture Overview
 
