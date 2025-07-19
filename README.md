@@ -86,7 +86,7 @@ The system implements a multi-stage processing pipeline:
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/samuelincoln1/serverless-log-analyser.git
    cd log-analyser
    ```
 
